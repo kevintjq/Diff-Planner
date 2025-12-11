@@ -60,7 +60,6 @@ roslaunch diff_planner run_all_sim.launch
 </p>
 
 
-
 ### 4. 预设点飞行：
 先在 **[points.yaml](src/user_command/multipoint/config/points.yaml)** 文件中 **test1** 下设置期望途经点，**test_back** 下设置返程目标点，之后通过以下指令执行任务：
 ```
@@ -70,7 +69,18 @@ cd Diff-Planner
 ```
 注：通过修改 **[multipointplan_sim.launch](src/user_command/multipoint/launch/multipointplan_sim.launch)** 中的 **fligt_type** 可实现多种指点规划方式，如自定义到达每个途经点过程中的飞机yaw角，控制到达每个途经点后的停留时间等，具体使用方法见配套 **产品手册**。
 ## 实机运行教程
-详见与实机配套的**产品手册**。
+### 1. 雷达定位下规划：
+```
+cd Diff-Planner
+./sh_files/run_single_lio.sh #请先按照配套的产品手册教程配置途径点位
+```
+### 2. 视觉定位下规划：
+```
+cd Diff-Planner
+./sh_files/run_single_vio.sh #请先按照配套的产品手册教程配置途径点位
+```
+
+起飞、规划、返航、降落方式详见与实机配套的**产品手册**。
 
 ## 致谢与声明
 本项目在开发过程中参考并使用了 **[EGO-Planner-v2](https://github.com/ZJU-FAST-Lab/EGO-Planner-v2)**，特此感谢浙江大学 **FAST-Lab** 团队的开源贡献。

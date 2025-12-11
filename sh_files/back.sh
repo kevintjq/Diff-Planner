@@ -1,4 +1,6 @@
-rostopic pub /back_trigger geometry_msgs/PoseStamped "header:
+#!/bin/zsh
+source devel/setup.zsh;
+rostopic pub -1 /back_trigger geometry_msgs/PoseStamped "header:
   seq: 0
   stamp:
     secs: 0
