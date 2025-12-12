@@ -46,29 +46,52 @@ git clone https://github.com/DifferentialRobotics/Diff-Planner.git
 cd Diff-Planner
 catkin_make
 ```
-### 2. 启动仿真脚本：
+
+### 2. 单机rviz手动指点飞行：
 ```
 cd Diff-Planner
 source devel/setup.zsh # 如果使用bash终端，则执行: source devel/setup.bash
-roslaunch diff_planner run_all_sim.launch
+roslaunch diff_planner run_sim_single.launch
 ```
-### 3. rviz手动指点飞行：
 使用rviz中的**3D Nav Goal**插件，在地图上按住左键选择目标点x-y平面位置，按住左键不松手同时按住右键上下拖动调整目标点z轴位置，之后松开鼠标即发送目标点，无人机开始规划。
-
 <p align="center">
   <img src="images/rviz_test.gif" alt="rviz_tes" width="600" />
 </p>
 
 
-### 4. 预设点飞行：
-先在 **[points.yaml](src/user_command/multipoint/config/points.yaml)** 文件中 **test1** 下设置期望途经点，**test_back** 下设置返程目标点，之后通过以下指令执行任务：
+### 3. 单机预设点飞行：
+在 **[points.yaml](src/user_command/multipoint/config/points.yaml)** 文件中 **test1** 下设置期望途经点，**test_back** 下设置返程目标点，之后通过以下指令执行任务：
 ```
 cd Diff-Planner
+source devel/setup.zsh
+roslaunch diff_planner run_sim_single.launch
+cd Diff-Planner #新建终端
 ./sh_files/pub_trigger.sh #开始执行任务 或在rviz中用2D Nav Goal插件在地图任意位置点击也能开始执行任务
 ./sh_files/back.sh #开始返程规划
 ```
-注：通过修改 **[multipointplan_sim.launch](src/user_command/multipoint/launch/multipointplan_sim.launch)** 中的 **fligt_type** 可实现多种指点规划方式，如自定义到达每个途经点过程中的飞机yaw角，控制到达每个途经点后的停留时间等，具体使用方法见配套 **产品手册**。
+注：通过修改 **[multipointplan_sim.launch](src/user_command/multipoint/launch/multipointplan_sim.launch)** 中的 **fligt_type** 可实现多种指点规划方式，如自定义到达每个途经点过程中的飞机yaw角，控制到达每个途经点后的停留时间等，详见 **[points.yaml](src/user_command/multipoint/config/points.yaml)** 顶部注释。
+
+### 4. 集群预设点飞行：
+在 **[run_sim_swarm.launch](src/diff_planner/plan_manage/launch/sim/run_sim_swarm.launch)** 中设置每架无人机的目标点 **target0_x/y/z**，之后通过以下指令执行任务：
+```
+cd Diff-Planner
+source devel/setup.zsh
+roslaunch diff_planner run_sim_swarm.launch
+cd Diff-Planner #新建终端
+./sh_files/pub_swarm_trigger.sh #开始执行任务
+```
+
+
 ## 实机运行教程
+### 0.深度相机内参替换
+若要使用**视觉定位**下规划，需要先在 **[run_exp_single_vio.launch](src/diff_planner/plan_manage/launch/exp/run_exp_single_vio.launch)** 中替换深度相机内参 **cx/cy/fx/fy**，内参查看方式：
+```
+cd Diff-Planner
+./sh_files/run_vins.sh
+rostopic echo /camera/depth/camera_info
+```
+消息中的K矩阵即为深度相机内参，注意矩阵中的顺序为 **fx/cx/fy/cy**。
+
 ### 1. 雷达定位下规划：
 ```
 cd Diff-Planner

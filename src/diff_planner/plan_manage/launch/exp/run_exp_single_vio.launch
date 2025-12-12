@@ -1,7 +1,7 @@
 <launch>
     <arg name="odom_topic" value="/vins/imu_propagate"/>
     <arg name="drone_id"  value="$(env DRONE_ID)"/>
-    <include file="$(find diff_planner)/launch/include/advanced_param_single.xml">
+    <include file="$(find diff_planner)/launch/include/advanced_param_exp.xml">
         <arg name="odom_topic" value="$(arg odom_topic)"/>
         <arg name="drone_id" value="$(arg drone_id)"/>
         <!-- camera pose: transform of camera frame in the world frame -->
