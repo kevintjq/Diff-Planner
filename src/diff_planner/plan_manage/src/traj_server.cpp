@@ -220,7 +220,7 @@ void cmdCallback(const ros::TimerEvent &e)
     jer = traj_->getJer(t_cur);
 
     /*** calculate yaw ***/
-    yaw_yawdot = calculate_yaw(t_cur, pos, (time_now - time_last).toSec());
+    yaw_yawdot = calculate_yaw(t_cur, pos, 0.01);
     /*** calculate yaw ***/
 
     time_last = time_now;
